@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateSetUp : PlayerStateBase
+public class PlayerStateIdle : PlayerStateBase
 {
     public override void EnterState(PlayerControl player) {
-        for (int i = 0; i < player.HandSize; i++) {
-            player.draw(i);
-        }
-
-        player.ChangeState(player.statePlay);
+        
     }
     public override void Update(PlayerControl player) {
 
     }
     public override void LeaveState(PlayerControl player) {
 
-    }
+    } 
 }
