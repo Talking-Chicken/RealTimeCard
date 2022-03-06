@@ -9,10 +9,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject canvas;
     public List<GameObject> hand = new List<GameObject>();
     private Card currentCard;
-    [SerializeField, Header("card deck")] private List<GameObject> backgrounds = new List<GameObject>();
+    [SerializeField, Header("back ground")] private List<GameObject> backgrounds = new List<GameObject>();
+    [SerializeField] private GameObject indicator;
 
-    //deck is for draw, discard deck will be shuffled and put back to deck
-    private Stack<GameObject> deck = new Stack<GameObject>(), discardDeck = new Stack<GameObject>();
+    //discard deck will be shuffled and put back to player deck
+    private Stack<GameObject> discardDeck = new Stack<GameObject>();
     [Header("card deck")]public List<GameObject> playerDeck; //all cards that player have
 
     //player movements
@@ -27,6 +28,7 @@ public class PlayerControl : MonoBehaviour
     public float Speed {get {return speed;} private set {speed = value;}}
     public List<GameObject> Hand {get {return hand;} set {hand = value;}}
     public Stack<GameObject> DiscardDeck {get {return discardDeck;} set {discardDeck = value;}}
+    public GameObject Indicator {get {return indicator;} private set {indicator = value;}}
 
     // State
     // private BoardState state;
@@ -59,18 +61,19 @@ public class PlayerControl : MonoBehaviour
     {
         Destination = transform.position;
         currentState = stateIdle;
-        for (int i = 0; i < playerDeck.Count; i++) {
-            deck.Push(playerDeck[i]);
-            playerDeck[i].GetComponent<Card>().IndexInHand = i;
-            deck.Peek().SetActive(false);
-        }
         HandSize = 4;
+        for (int i = 0; i < Mathf.Min(playerDeck.Count, HandSize); i++) {
+            Hand.Add(null);
+            playerDeck[i].GetComponent<Card>().IndexInHand = i;
+            playerDeck[i].SetActive(false);
+        }
         ChangeState(stateSetUp);
     }
 
     void Update()
     {
         currentState.Update(this);
+        Debug.Log(DiscardDeck.Count);
     }
 
     void FixedUpdate() {
@@ -79,14 +82,39 @@ public class PlayerControl : MonoBehaviour
 
     //draw a card to fill the empty position of player's hand
     public void draw(int position) {
-        if (position >= handSize) {
+        if (position >= HandSize) {
             Debug.LogWarning("trying to draw card to position (" + position + ") bigger than hand size");
-        } else{
-            hand.Add(deck.Pop());
-            hand[position].SetActive(true);
-            hand[position].transform.position = backgrounds[position].transform.position;
+        } else {
+            if (playerDeck.Count <= 0) {
+                for (int i = 0; i < DiscardDeck.Count; i++) {
+                    playerDeck.Add(DiscardDeck.Pop());
+                }
 
-            hand[position].GetComponent<Card>().IndexInHand = position;
+                //shuffule the deck
+                for (int i = 0; i < playerDeck.Count; i++) {
+                    GameObject temp = playerDeck[i];
+                    int randomIndex = (int)Random.Range(0, playerDeck.Count - 0.1f);
+                    playerDeck[i] = playerDeck[randomIndex];
+                    playerDeck[randomIndex] = temp;
+                }
+            }
+            Hand[position] = playerDeck[playerDeck.Count-1];
+            playerDeck.RemoveAt(playerDeck.Count-1);
+            Hand[position].SetActive(true);
+            Hand[position].transform.position = backgrounds[position].transform.position;
+
+            Hand[position].GetComponent<Card>().IndexInHand = position;
+        }
+    }
+
+    //discard card from hand, set it inactive
+    public void discard(int position) {
+        if (position >= HandSize) {
+            Debug.LogWarning("trying to discard card from position (" + position + ") bigger than hand size");
+        } else {
+            DiscardDeck.Push(Hand[position]);
+            Hand[position] = null;
+            DiscardDeck.Peek().SetActive(false);
         }
     }
 
@@ -110,7 +138,7 @@ public class PlayerControl : MonoBehaviour
         CurrentCard = selectingCard;
     }
 
-    //after cd, change to play state
+    //after cool down, change to play state
     public IEnumerator waitForCardCD() {
         yield return new WaitForSeconds(2.0f);
         ChangeState(statePlay);

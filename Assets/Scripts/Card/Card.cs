@@ -14,6 +14,12 @@ public class Card : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    //set a indicator at the card position, when mouse is hover on it
+    public void examineThisCard() {
+        FindObjectOfType<PlayerControl>().Indicator.transform.position = transform.position;
+    }
+
+    //use this card, when player clicked on it
     public void selectThisCard() {
         FindObjectOfType<PlayerControl>().selectCurrentCard(this);
         FindObjectOfType<PlayerControl>().ChangeToMoveState();

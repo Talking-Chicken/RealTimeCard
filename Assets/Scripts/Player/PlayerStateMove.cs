@@ -11,11 +11,7 @@ public class PlayerStateMove : PlayerStateBase
             player.CurrentCard.play();
 
             //discard card from hand, and draw a new card
-            player.DiscardDeck.Push(player.CurrentCard.gameObject);
-            player.Hand.Remove(player.CurrentCard.gameObject);
-            if (player.playerDeck.Count < 0) {
-                player.playerDeck.Add(player.DiscardDeck.Pop());
-            }
+            player.discard(player.CurrentCard.IndexInHand);
             player.draw(player.CurrentCard.IndexInHand);
             
             player.StartCoroutine(player.waitForCardCD());
