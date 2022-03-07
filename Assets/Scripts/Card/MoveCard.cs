@@ -8,5 +8,6 @@ public class MoveCard : Card
     public override void play()
     {
         FindObjectOfType<PlayerControl>().setDestination(isMovingRight);
+        base.play();
     }
 }

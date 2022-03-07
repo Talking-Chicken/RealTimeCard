@@ -6,9 +6,9 @@ public class PlayerControl : MonoBehaviour
 {
     private int handSize;
     [SerializeField, Header("prefab")] private GameObject card;
-    [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject canvas, bullet;
     public List<GameObject> hand = new List<GameObject>();
-    private Card currentCard;
+    [SerializeField]private Card currentCard;
     [SerializeField, Header("back ground")] private List<GameObject> backgrounds = new List<GameObject>();
     [SerializeField] private GameObject indicator;
 
@@ -29,6 +29,7 @@ public class PlayerControl : MonoBehaviour
     public List<GameObject> Hand {get {return hand;} set {hand = value;}}
     public Stack<GameObject> DiscardDeck {get {return discardDeck;} set {discardDeck = value;}}
     public GameObject Indicator {get {return indicator;} private set {indicator = value;}}
+    public GameObject Bullet {get {return bullet;}}
 
     // State
     // private BoardState state;
@@ -90,6 +91,8 @@ public class PlayerControl : MonoBehaviour
                     playerDeck.Add(DiscardDeck.Pop());
                 }
 
+                Debug.Log(playerDeck.Count + " is player deck");
+
                 //shuffule the deck
                 for (int i = 0; i < playerDeck.Count; i++) {
                     GameObject temp = playerDeck[i];
@@ -121,9 +124,9 @@ public class PlayerControl : MonoBehaviour
     //set a target destination to player, transition to move state
     public void setDestination(bool isMovingRight) {
         if (isMovingRight)
-            Destination = Vector2.right * 5;
+            Destination = new Vector2(Mathf.Min(transform.position.x + 5, bound.bounds.max.x - 1), transform.position.y);
         else
-            Destination = Vector2.left * 5;
+            Destination = new Vector2(Mathf.Max(transform.position.x -5, bound.bounds.min.x + 1), transform.position.y);
     }
 
     //using lerp to move to destination, if haven't reach destination
