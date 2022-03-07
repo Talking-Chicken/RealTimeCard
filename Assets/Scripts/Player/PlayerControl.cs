@@ -18,13 +18,14 @@ public class PlayerControl : MonoBehaviour
 
     //player movements
     [SerializeField, Header("movement")]private Collider2D bound;
+    [SerializeField] private LocationManager locationManager;
     [SerializeField] private float speed;
-    private Vector2 destination;
+    private int destinationIndex, currentIndex;
 
     //getters & setters
     public int HandSize {get {return handSize;} private set {handSize = value;}}
     public Card CurrentCard {get {return currentCard;} private set {currentCard = value;}}
-    public Vector2 Destination {get {return destination;} private set {destination = value;}}
+    public int DestinationIndex {get {return destinationIndex;} private set {destinationIndex = value;}}
     public float Speed {get {return speed;} private set {speed = value;}}
     public List<GameObject> Hand {get {return hand;} set {hand = value;}}
     public Stack<GameObject> DiscardDeck {get {return discardDeck;} set {discardDeck = value;}}
@@ -60,7 +61,9 @@ public class PlayerControl : MonoBehaviour
     }
     void Start()
     {
-        Destination = transform.position;
+        locationManager = FindObjectOfType<LocationManager>();
+        DestinationIndex = locationManager.Locations.Count/2;
+        currentIndex = DestinationIndex;
         currentState = stateIdle;
         HandSize = 4;
         for (int i = 0; i < Mathf.Min(playerDeck.Count, HandSize); i++) {
@@ -122,17 +125,22 @@ public class PlayerControl : MonoBehaviour
     }
 
     //set a target destination to player, transition to move state
-    public void setDestination(bool isMovingRight) {
-        if (isMovingRight)
-            Destination = new Vector2(Mathf.Min(transform.position.x + 5, bound.bounds.max.x - 1), transform.position.y);
-        else
-            Destination = new Vector2(Mathf.Max(transform.position.x -5, bound.bounds.min.x + 1), transform.position.y);
+    public void setDestination(bool isMovingRight, int distance) {
+        if (isMovingRight) {
+            DestinationIndex = Mathf.Min(currentIndex + distance, locationManager.Locations.Count - 1);
+            currentIndex = DestinationIndex;
+        }
+        else {
+            DestinationIndex = Mathf.Max(currentIndex - distance, 0);
+            currentIndex = DestinationIndex;
+        }
     }
 
     //using lerp to move to destination, if haven't reach destination
     public void moveTowardDestination() {
-        if (Vector2.Distance(transform.position, Destination) > 0.1f) {
-            transform.position = Vector2.MoveTowards(transform.position, Destination, Time.deltaTime * Speed);
+        Vector2 targetDestination = new Vector2(locationManager.Locations[DestinationIndex].transform.position.x, transform.position.y);
+        if (Vector2.Distance(transform.position, targetDestination) > 0.1f) {
+            transform.position = Vector2.MoveTowards(transform.position, targetDestination, Time.deltaTime * Speed);
         }
     }
 
@@ -143,7 +151,7 @@ public class PlayerControl : MonoBehaviour
 
     //after cool down, change to play state
     public IEnumerator waitForCardCD() {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
         ChangeState(statePlay);
     }
 }

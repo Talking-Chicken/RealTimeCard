@@ -15,7 +15,7 @@ public class WorldBound : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collider) {
-        if (collider.tag.Equals("Projectile")) {
+        if (collider.tag.Equals("Projectile") || collider.GetComponent<Enemy>() != null) {
             Destroy(collider.gameObject);
         }
     }
