@@ -18,7 +18,7 @@ public class PlayerControl : MonoBehaviour
 
     //player movements
     [SerializeField, Header("movement")]private Collider2D bound;
-    [SerializeField] private LocationManager locationManager;
+    private LocationManager locationManager;
     [SerializeField] private float speed;
     private int destinationIndex, currentIndex;
 
@@ -78,7 +78,6 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         currentState.Update(this);
-        Debug.Log(DiscardDeck.Count);
     }
 
     void FixedUpdate() {
@@ -155,5 +154,12 @@ public class PlayerControl : MonoBehaviour
         CurrentCard = null;
         yield return new WaitForSeconds(0.5f);
         ChangeState(statePlay);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.GetComponent<Enemy>() != null || collision.gameObject.GetComponent<EnemyBullet>() != null) {
+            Camera.main.GetComponent<CameraShake>().shake();
+            Destroy(gameObject);
+        }
     }
 }

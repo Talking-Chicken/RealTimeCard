@@ -8,9 +8,10 @@ public class FlyEnemy : Enemy
     private bool canMove = false, isDestinationSet = false;
     [SerializeField]Vector2 targetPosition;
     [SerializeField] private GameObject bullet;
-    void Start() {
+    public override void Start() {
         location = FindObjectOfType<LocationManager>();
         targetPosition = transform.position;
+        base.Start();
     }
     public override void move()
     {
@@ -25,8 +26,10 @@ public class FlyEnemy : Enemy
         if (Vector2.Distance(transform.position, targetPosition) > 0.1f) {
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
             isDestinationSet = false;
+            base.myAnim.SetBool("isMoving", true);
         }
         else {
+            base.myAnim.SetBool("isMoving", false);
             if (!isDestinationSet)
                 StartCoroutine(waitToMove());
         }
@@ -43,6 +46,7 @@ public class FlyEnemy : Enemy
 
     //shott toward target transform position a bullet
     private void shootBullet() {
-        Instantiate(bullet, transform.position, Quaternion.identity);
+        if (FindObjectOfType<PlayerControl>() != null)
+            Instantiate(bullet, transform.position, Quaternion.identity);
     }
 }

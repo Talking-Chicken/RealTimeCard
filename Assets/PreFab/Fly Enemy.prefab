@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6137718152325146162}
   - component: {fileID: 6137718152325146163}
-  - component: {fileID: 6137718152325146160}
   - component: {fileID: 511431269501112797}
+  - component: {fileID: 6137718152325146160}
   - component: {fileID: 2764970734847295056}
   m_Layer: 0
   m_Name: Fly Enemy
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4e0f9c24680d64146b60574e9a35be26, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.0627451}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,21 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6137718152325146160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6137718152325146161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a4674a9148574448b418fdce7b90f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  targetPosition: {x: 0, y: 0}
-  bullet: {fileID: 6429250176950757926, guid: 5b8a7a8a4cdf19e4298614085849da1e, type: 3}
 --- !u!95 &511431269501112797
 Animator:
   serializedVersion: 4
@@ -122,6 +107,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6137718152325146160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6137718152325146161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4674a9148574448b418fdce7b90f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  targetPosition: {x: 0, y: 0}
+  bullet: {fileID: 6429250176950757926, guid: 5b8a7a8a4cdf19e4298614085849da1e, type: 3}
 --- !u!61 &2764970734847295056
 BoxCollider2D:
   m_ObjectHideFlags: 0

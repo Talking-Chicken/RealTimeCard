@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     protected float elapsedTime;
     protected Animator myAnim;
-    void Start()
+    public virtual void Start()
     {
         elapsedTime = 0;
         myAnim = GetComponent<Animator>();
@@ -21,7 +21,11 @@ public class Enemy : MonoBehaviour
 
     public virtual void move() {}
 
-    void On
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.GetComponent<Bullet>() != null) {
+            StartCoroutine(waitToDestory());
+        }
+    }
 
     protected IEnumerator waitToDestory() {
         myAnim.SetBool("isAlive", false);
