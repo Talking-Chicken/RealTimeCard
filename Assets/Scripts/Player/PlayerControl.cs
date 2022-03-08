@@ -26,6 +26,8 @@ public class PlayerControl : MonoBehaviour
     private int destinationIndex, currentIndex;
     private Animator myAnim;
 
+    private AudioSource audioSource;
+
     //getters & setters
     public int HandSize {get {return handSize;} private set {handSize = value;}}
     public Card CurrentCard {get {return currentCard;} private set {currentCard = value;}}
@@ -78,6 +80,7 @@ public class PlayerControl : MonoBehaviour
         }
         ChangeState(stateSetUp);
         myAnim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -165,8 +168,17 @@ public class PlayerControl : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.GetComponent<Enemy>() != null || collision.gameObject.GetComponent<EnemyBullet>() != null) {
+        if (collision.gameObject.GetComponent<EnemyBullet>() != null) {
             Camera.main.GetComponent<CameraShake>().shake();
+            audioSource.Play();
+            Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.gameObject.GetComponent<Enemy>() != null) {
+            Camera.main.GetComponent<CameraShake>().shake();
+            audioSource.Play();
             Destroy(gameObject);
         }
     }

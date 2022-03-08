@@ -10,11 +10,6 @@ public class Bullet : MonoBehaviour
     //getters & setters
     public Vector2 Direction {get {return direction;} set {direction = value;}}
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         transform.Translate(Direction * Time.deltaTime * speed);

@@ -7,12 +7,15 @@ public class Card : MonoBehaviour
 {
     protected PlayerControl player;
     private int indexInHand;
+
+    private AudioSource audioSource;
     
     //getters & setters
     public int IndexInHand {get{return indexInHand;} set {indexInHand = value;}}
     
     void Start() {
         player = FindObjectOfType<PlayerControl>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public virtual void play() {
@@ -28,6 +31,9 @@ public class Card : MonoBehaviour
     //use this card, when player clicked on it
     public void selectThisCard() {
         if (player != null && player.CurrentState == player.statePlay)
+        {
+            audioSource.Play();
             player.ChangeToMoveState();
+        }
     }
 }
