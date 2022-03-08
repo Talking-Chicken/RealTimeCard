@@ -17,6 +17,7 @@ public class PlayerStateMove : PlayerStateBase
             player.StartCoroutine(player.waitForCardCD());
         } else {
             Debug.LogWarning("current selecting card is null");
+            player.ChangeState(player.statePlay);
         }
     }
     public override void Update(PlayerControl player) {

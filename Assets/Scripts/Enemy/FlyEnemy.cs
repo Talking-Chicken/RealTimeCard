@@ -7,6 +7,7 @@ public class FlyEnemy : Enemy
     LocationManager location;
     private bool canMove = false, isDestinationSet = false;
     [SerializeField]Vector2 targetPosition;
+    [SerializeField] private GameObject bullet;
     void Start() {
         location = FindObjectOfType<LocationManager>();
         targetPosition = transform.position;
@@ -32,14 +33,16 @@ public class FlyEnemy : Enemy
     }
 
     //after cool down, gameobject will move to a random location fomr location manager
+    //then, shoot a bullet to player
     IEnumerator waitToMove() {
         isDestinationSet = true;
         yield return new WaitForSeconds(3.0f);
         canMove = true;
+        shootBullet();
     }
 
     //shott toward target transform position a bullet
-    private void shootBullet(Transform targetTransform) {
-        
+    private void shootBullet() {
+        Instantiate(bullet, transform.position, Quaternion.identity);
     }
 }

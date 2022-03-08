@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    private string cardName;
+    protected PlayerControl player;
     private int indexInHand;
     
     //getters & setters
     public int IndexInHand {get{return indexInHand;} set {indexInHand = value;}}
     
+    void Start() {
+        player = FindObjectOfType<PlayerControl>();
+    }
+
     public virtual void play() {
         gameObject.SetActive(false);
     }
 
     //set a indicator at the card position, when mouse is hover on it
     public void examineThisCard() {
-        FindObjectOfType<PlayerControl>().selectCurrentCard(this);
-        FindObjectOfType<PlayerControl>().Indicator.transform.position = transform.position;
+        if (player.CurrentState == player.statePlay)
+            FindObjectOfType<PlayerControl>().selectCurrentCard(this);
     }
 
     //use this card, when player clicked on it
     public void selectThisCard() {
-        FindObjectOfType<PlayerControl>().ChangeToMoveState();
+        if (player.CurrentState == player.statePlay)
+            FindObjectOfType<PlayerControl>().ChangeToMoveState();
     }
 }

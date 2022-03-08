@@ -31,6 +31,7 @@ public class PlayerControl : MonoBehaviour
     public Stack<GameObject> DiscardDeck {get {return discardDeck;} set {discardDeck = value;}}
     public GameObject Indicator {get {return indicator;} private set {indicator = value;}}
     public GameObject Bullet {get {return bullet;}}
+    public PlayerStateBase CurrentState {get {return currentState;}}
 
     // State
     // private BoardState state;
@@ -151,6 +152,7 @@ public class PlayerControl : MonoBehaviour
 
     //after cool down, change to play state
     public IEnumerator waitForCardCD() {
+        CurrentCard = null;
         yield return new WaitForSeconds(0.5f);
         ChangeState(statePlay);
     }
