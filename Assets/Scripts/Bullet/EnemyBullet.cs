@@ -7,10 +7,12 @@ public class EnemyBullet : MonoBehaviour
     private Vector2 targetDirection;
     private float speed;
     private bool isAlive = true;
+    private Animator myAnim;
     void Start()
     {
         speed = 2.0f;
         targetDirection = (FindObjectOfType<PlayerControl>().transform.position - transform.position).normalized;
+        myAnim = GetComponent<Animator>();
     }
     
     void Update()
@@ -18,12 +20,18 @@ public class EnemyBullet : MonoBehaviour
         if (isAlive) {
             transform.Translate(targetDirection * Time.deltaTime * speed);
         } else {
-            gameObject.SetActive(false);
+            myAnim.SetBool("isAlive", false);
+            StartCoroutine(waitToDestroy());
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag.Equals("Ground"))
             isAlive = false;
+    }
+
+    IEnumerator waitToDestroy() {
+        yield return new WaitForSeconds(0.3f);
+        Destroy(gameObject);
     }
 }
