@@ -26,7 +26,7 @@ public class EnemyBullet : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag.Equals("Ground"))
+        if (collision.gameObject.tag.Equals("Ground") || collision.gameObject.GetComponent<Bullet>() != null)
             isAlive = false;
     }
 
