@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviour
     private LocationManager locationManager;
     [SerializeField] private float speed;
     private int destinationIndex, currentIndex;
+    private Animator myAnim;
 
     //getters & setters
     public int HandSize {get {return handSize;} private set {handSize = value;}}
@@ -73,6 +74,7 @@ public class PlayerControl : MonoBehaviour
             playerDeck[i].SetActive(false);
         }
         ChangeState(stateSetUp);
+        myAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -140,7 +142,10 @@ public class PlayerControl : MonoBehaviour
     public void moveTowardDestination() {
         Vector2 targetDestination = new Vector2(locationManager.Locations[DestinationIndex].transform.position.x, transform.position.y);
         if (Vector2.Distance(transform.position, targetDestination) > 0.1f) {
+            myAnim.SetBool("isMoving", true);
             transform.position = Vector2.MoveTowards(transform.position, targetDestination, Time.deltaTime * Speed);
+        } else {
+            myAnim.SetBool("isMoving", false);
         }
     }
 

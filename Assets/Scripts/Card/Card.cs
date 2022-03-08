@@ -20,13 +20,13 @@ public class Card : MonoBehaviour
 
     //set a indicator at the card position, when mouse is hover on it
     public void examineThisCard() {
-        if (player.CurrentState == player.statePlay)
-            FindObjectOfType<PlayerControl>().selectCurrentCard(this);
+        if (player != null && player.CurrentState == player.statePlay)
+            player.selectCurrentCard(this);
     }
 
     //use this card, when player clicked on it
     public void selectThisCard() {
-        if (player.CurrentState == player.statePlay)
-            FindObjectOfType<PlayerControl>().ChangeToMoveState();
+        if (player != null && player.CurrentState == player.statePlay)
+            player.ChangeToMoveState();
     }
 }
