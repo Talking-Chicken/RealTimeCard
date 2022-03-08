@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//base card class that has a virtual play function that will be called after player play the card
 public class Card : MonoBehaviour
 {
     protected PlayerControl player;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//set up the initial hand deck
 public class PlayerStateSetUp : PlayerStateBase
 {
     public override void EnterState(PlayerControl player) {

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//player control class. Stores decks of card that are in hand, in discard deck, and in ready to deal deck
+//this class also in charge of player animation and player death
+//this class creates four other state classes (idle, move, play, setUp)
 public class PlayerControl : MonoBehaviour
 {
     private int handSize;

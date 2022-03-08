@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//generat enemy based on score (time) player get
 public class EnemyGenerator : MonoBehaviour
 {
     private ScoreManager scoreManager;
@@ -37,10 +38,12 @@ public class EnemyGenerator : MonoBehaviour
                 int randomChoose = (int)Random.Range(0, 1.99f);
                 //spawn from left
                 if (randomChoose == 0) {
-                    Instantiate(sineEnemy, new Vector2(worldBound.bounds.min.x - 1, sineSpawnY), Quaternion.identity);
+                    GameObject sin = Instantiate(sineEnemy, new Vector2(worldBound.bounds.min.x - 1, sineSpawnY), Quaternion.identity);
+                    sin.GetComponent<SineEnemy>().IsMovingRight = true;
                     Instantiate(flyEnemy, new Vector2(worldBound.bounds.min.x - 1, flySpawnY), Quaternion.identity);
                 } else { //spawn from right
-                    Instantiate(sineEnemy, new Vector2(worldBound.bounds.max.x + 1, sineSpawnY), Quaternion.identity);
+                    GameObject sin = Instantiate(sineEnemy, new Vector2(worldBound.bounds.max.x + 1, sineSpawnY), Quaternion.identity);
+                    sin.GetComponent<SineEnemy>().IsMovingRight = false;
                     Instantiate(flyEnemy, new Vector2(worldBound.bounds.max.x + 1, flySpawnY), Quaternion.identity);
                 }
             }
