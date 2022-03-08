@@ -25,6 +25,7 @@ public class EnemyGenerator : MonoBehaviour
     
     void Update()
     {
+        //decides how many enemy should be spawned
         for (int i = 0; i < difficultyScore.Length; i++) {
             if ((int)scoreManager.Score == difficultyScore[i]) {
                 spawnRate += 0.4f;
@@ -32,8 +33,8 @@ public class EnemyGenerator : MonoBehaviour
             }
         }
 
-        if (((int)scoreManager.Score)%10 == 0 && !isSpawned) {
-
+        //spawn enemies
+        if (((int)scoreManager.Score)%10 == 0 && !isSpawned && FindObjectOfType<PlayerControl>() != null) {
             for (int i = 0; i < (int)spawnRate; i++) {
                 int randomChoose = (int)Random.Range(0, 1.99f);
                 //spawn from left

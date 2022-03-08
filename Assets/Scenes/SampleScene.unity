@@ -3743,7 +3743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8503633961593923794, guid: 5fd7b90ad5634a94c8cd1d0a03e7c845, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8503633961593923795, guid: 5fd7b90ad5634a94c8cd1d0a03e7c845, type: 3}
       propertyPath: m_Pivot.x
@@ -5776,6 +5776,10 @@ PrefabInstance:
     - target: {fileID: 8503633961593923794, guid: 5fd7b90ad5634a94c8cd1d0a03e7c845, type: 3}
       propertyPath: m_Name
       value: Card (Shoot Up) (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503633961593923794, guid: 5fd7b90ad5634a94c8cd1d0a03e7c845, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8503633961593923795, guid: 5fd7b90ad5634a94c8cd1d0a03e7c845, type: 3}
       propertyPath: m_Pivot.x
